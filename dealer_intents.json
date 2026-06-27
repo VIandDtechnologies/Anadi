@@ -1,0 +1,41 @@
+﻿[
+  {
+    "tag": "greeting",
+    "patterns": ["Hello", "Hi", "Hey", "Good morning", "Howdy"],
+    "responses": ["Welcome! How can I assist you today?"]
+  },
+  {
+    "tag": "goodbye",
+    "patterns": ["Bye", "See you", "Goodbye", "I'm leaving"],
+    "responses": ["Goodbye! Feel free to visit us again."]
+  },
+  {
+    "tag": "hours",
+    "patterns": ["What time do you open?", "Working hours", "Are you open on Sunday?"],
+    "responses": ["We're open Mon–Sat, 9 AM to 7 PM."]
+  },
+  {
+    "tag": "location",
+    "patterns": ["Where are you?", "Address", "Directions", "Showroom location"],
+    "responses": ["123 Auto Lane, Mumbai. [Map link]"]
+  },
+  {
+    "tag": "financing",
+    "patterns": ["EMI options", "Loan", "Financing", "Interest rates"],
+    "responses": ["We offer instant loans through partner banks. Would you like to speak with our finance team?"]
+  },
+  {
+    "tag": "new_customer",
+    "patterns": [
+      "I want to buy a car",
+      "I'm interested in a vehicle",
+      "Can I book a test drive?",
+      "I want to know more about your cars",
+      "I'm looking for a bike",
+      "I want to be contacted",
+      "Please call me",
+      "I need a quote"
+    ],
+    "responses": ["Great! Let me get your details so our team can assist you."]
+  }
+]
