@@ -108,8 +108,9 @@ print("AI Dealer Chatbot Ready")
 print("Type 'exit' to quit")
 print("=" * 50)
 
-while True:
-    user_input = input("You: ").strip()
+def get_response(user_input):
+    # Your FAISS + SentenceTransformer code goes here
+    return response
     if user_input.lower() == "exit":
         print("Bot: Goodbye! Visit us again.")
         break
