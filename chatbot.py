@@ -40,7 +40,14 @@ def save_customer(name, phone, email, interest):
 with open("dealer_intents.json", "r", encoding="utf-8-sig") as f:
     intents = json.load(f)
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+
+model = None
+
+def get_model():
+    global model
+    if model is None:
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+    return model
 
 all_patterns = []
 pattern_to_tag = []
@@ -108,34 +115,40 @@ print("AI Dealer Chatbot Ready")
 print("Type 'exit' to quit")
 print("=" * 50)
 
-def get_response(user_input):
-    global capture_state
+while True:
+    user_input = input("You: ").strip()
+    if user_input.lower() == "exit":
+        print("Bot: Goodbye! Visit us again.")
+        break
 
-    # If we are collecting customer details
+    # If we are in the middle of capturing customer details, handle it
     if capture_state is not None:
-        return process_lead_input(user_input)
+        reply = process_lead_input(user_input)
+        print(reply)
+        continue
 
-    # Semantic search
-    user_vec = model.encode([user_input], normalize_embeddings=True).astype("float32")
-
+    # Otherwise, semantic intent matching
+    user_vec = model.encode([user_input], normalize_embeddings=True).astype('float32')
     scores, indices = index.search(user_vec, 1)
-
     best_score = scores[0][0]
     best_idx = indices[0][0]
 
     if best_score >= SIMILARITY_THRESHOLD:
-
         matched_tag = pattern_to_tag[best_idx]
 
+        # ---------- Lead capture intent ----------
         if matched_tag == "new_customer":
-            start_lead_capture()
-
+            # Give the initial response and start capture flow
             for intent in intents:
                 if intent["tag"] == "new_customer":
-                    return random.choice(intent["responses"])
-
-        for intent in intents:
-            if intent["tag"] == matched_tag:
-                return random.choice(intent["responses"])
-
-    return "I'm not sure about that. Could you rephrase your question?"
+                    print("Bot:", random.choice(intent["responses"]))
+                    break
+            print(start_lead_capture())
+        else:
+            # Regular FAQ response
+            for intent in intents:
+                if intent["tag"] == matched_tag:
+                    print("Bot:", random.choice(intent["responses"]))
+                    break
+    else:
+        print("Bot: I'm not sure about that. You can ask about our vehicles, financing, or location. Type 'exit' to leave.")
